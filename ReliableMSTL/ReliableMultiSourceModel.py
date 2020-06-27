@@ -152,9 +152,9 @@ class ReliableMultiSourceModel(object):
             self.source_labeled_constant_prox_weights)
 
     def train_omega(self):
-        '''
+        """
             Calculate the omega which measures both proximity and reliability
-        '''
+        """
         gamma = np.zeros((self.n_domain, self.n_domain))
         for k in range(self.n_domain):
             for m in range(self.n_domain):
@@ -196,11 +196,11 @@ class ReliableMultiSourceModel(object):
     ######################################################################################################
 
     def perform_active_learning(self, source_i=-1):
-        '''
+        """
             Perform a round of active learning to label one instance
 
             Return: 1 if the query is successful, 0 otherwise (all instances in that source have been labeled)
-        '''
+        """
         if self.AL_method == "random":
             # Randomly pick an instance from a random source
             if source_i == -1:
@@ -256,9 +256,9 @@ class ReliableMultiSourceModel(object):
             raise Exception("Error: shouldn't get here")
 
     def query_instance(self, source_i, active_index, retrain=False):
-        '''
+        """
             Query an instance and retrain active learning model
-        '''
+        """
         if active_index not in self.source_unlabeled_indices[source_i]:
             print("Warning: trying to label an already labeled instance")
 
@@ -272,9 +272,9 @@ class ReliableMultiSourceModel(object):
             self.AL_models[source_i] = LinearSVC(loss="hinge").fit(X_train, Y_train)
 
     def pick_active_index(self, source_id, criteria):
-        '''
+        """
             Select an instance in the source according to the criteria
-        '''
+        """
         if criteria == "random":
             return random.choice(self.source_unlabeled_indices[source_id])
         elif criteria == "uncertainty":
@@ -298,9 +298,9 @@ class ReliableMultiSourceModel(object):
             raise Exception("Error: shouldn't get here")
 
     def train_omega_ALModels(self):
-        '''
+        """
             Calculate the omega which measures both proximity and reliability using the Active Learning models when doing Active Learning
-        '''
+        """
         self.tau = np.zeros((self.n_domain, self.n_domain))
         for k in range(self.n_domain):
             for m in range(self.n_domain):
